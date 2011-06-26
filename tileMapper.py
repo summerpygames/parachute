@@ -2,20 +2,14 @@
 # for "Mind The Gap"
 # maps out the image tiles for the background of the game
 #
-# 
 # git: http://www.github.com/summerpygames/parachute
 # 
-# 
 # TODO:
-# print out aall of the tiles in the right spot
 # probaly needs to be in a function, with image sets as inputs, for each different world
-# 
 # 
 # 
  
 import pygame, sys
-
-print "init"
 
 """
 symbol list:
@@ -30,7 +24,7 @@ game tile mapper names
 7 log middle =
 """
 
-#ascii tile map for custom levels
+#ascii tile map for custom levels: working!
 tileMap = """wwwwwwwwwwwwwwwwwwwwwwww
 wwww(=)w(=====)www(==)ww
 >wwwwwwwwwwwwwwwwwwwwww<
@@ -39,11 +33,11 @@ oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
+oo|wwwwww(=====)wwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
+oo>wwwwwwwwwwwwwwwwww<oo
+ooowwwwwwwwwwwwwwwwwwooo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
@@ -56,16 +50,18 @@ oo|wwwwwwwwwwwwwwwwww|oo"""
 # tile file names for ease 
 land = "land.bmp"
 liquid = "liquid.bmp"
+
 liquidByLand = "liquidByLand.bmp"
+landByLiquid = "landByLiquid.bmp"
+
 liquidOverLand  = "liquidOverLand.bmp"
+
 liquidLandCorner = "liquidLandCorner.bmp"
-liquidLandCornerLeft = "liquidLandCorner.bmp"
-liquidLandCornerRight = "liquidLandCorner.bmp"
+landLiquidCorner = "landLiquidCorner.bmp"
 
 logEnd = "logEnd.bmp"
 logMiddle = "logMiddle.bmp"
-logEndLeft = "logEndLeft.bmp"
-logEndRight = "logEndRight.bmp"
+endLog = "endLog.bmp"
 
 mapSize = [24, 18] #number of tiles for the screen
 tileLocation = [0, 0] #starting x and y location for tile printing
@@ -92,6 +88,24 @@ font.render("loading...", True, white)
 
 font.render(tileChar, True, white) #print the tile letter
 
+#### Load images beforehand for better blit times, etc
+liquidI = pygame.image.load(fileLocation + liquid).convert() #load the image tile and sets it to a variable for later
+landI = pygame.image.load(fileLocation + land).convert() #load the image tile and sets it to a variable for later
+
+liquidOverLandI = pygame.image.load(fileLocation + liquidOverLand).convert() #load the image tile and sets it to a variable for later
+
+liquidLandCornerI = pygame.image.load(fileLocation + liquidLandCorner).convert() #load the image tile and sets it to a variable for later
+landLiquidCornerI = pygame.image.load(fileLocation + landLiquidCorner).convert() ##load the image tile and sets it to a variable for later
+
+logMiddleI = pygame.image.load(fileLocation + logMiddle).convert() #load the image tile and sets it to a variable for later
+logEndI = pygame.image.load(fileLocation + logEnd).convert() #load the image tile and sets it to a variable for later
+endLogI = pygame.image.load(fileLocation + endLog).convert() #load the image tile and sets it to a variable for later
+
+
+liquidByLandI = pygame.image.load(fileLocation + liquidByLand).convert() #load the image tile and sets it to a variable for later
+landByLiquidI = pygame.image.load(fileLocation + landByLiquid).convert() #load the image tile and sets it to a variable for later
+
+        
 for tileChar in tileMap:
     #old, while loop ver:
     #tileChar = tileMap[(i)] #% mapSize[0])] #sets the tileChar to the letter standing for the images by reading the string of tiles like an array
@@ -99,26 +113,42 @@ for tileChar in tileMap:
     tileImage = pygame.image.load(fileLocation + liquid).convert()
 
     if tileChar == "w" : #water tile
-        tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the land tile
-        
+        #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
+        tileImage = liquidI
+
+    elif tileChar == "o" : #water tile
+        #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
+        tileImage = landI
+
+
     elif tileChar == "<":
-        tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the land tile
-        
+        #tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the tile
+        tileImage = liquidLandCornerI
     elif tileChar == ">":
-        tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the land tile
-        
-    elif tileChar == "(":
-        tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the land tile
-        
-    elif tileChar == ")":
-        tileImage = pygame.image.load(fileLocation + logEnd).convert() #sets to the image for the land tile
-        
-    elif tileChar == "|":
-        tileImage = pygame.image.load(fileLocation + liquidByLand).convert() #sets to the image for the land tile
-        
+        #tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the tile
+        tileImage = landLiquidCornerI
+
     elif tileChar == "=":
-        tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the land tile
-        
+        #tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the tile
+        tileImage = logMiddleI
+    elif tileChar == "(":
+        #tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the tile
+        tileImage = endLogI
+    elif tileChar == ")":
+        #tileImage = pygame.image.load(fileLocation + logEnd).convert() #sets to the image for the tile
+        tileImage = logEndI
+
+    elif tileChar == "]":
+        #tileImage = pygame.image.load(fileLocation + liquidByLand).convert() #sets to the image for the tile
+        tileImage = landByLiquidI
+    elif tileChar == "[":
+        #tileImage = pygame.image.load(fileLocation + liquidByLand).convert() #sets to the image for the tile
+        tileImage = liquidByLandI
+
+    elif tileChar == "_":
+        #tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the tile
+        tileImage = liquidOverLandI
+
 
     ###tileImage = pygame.image.load(fileLocation + ground).convert()    
     tileRect = tileImage.get_rect()
@@ -126,12 +156,9 @@ for tileChar in tileMap:
     tileRect = tileRect.move(tileLocation[0], tileLocation[1]) #move draw location to the right spot, (x,y)
     screen.blit(tileImage, tileRect) #"blits", draw pixels into buffer for display
 
-    pygame.display.flip() #moves blits onto sceen
-    #not this: mapSize[0]*tileSize[0] == mapPixelSize[0]
     if (tileLocation[0] >= width): #if x co-ord is at the right edge, bigger than the map size
         tileLocation[0] = 0 #set the draw location back to the left edge
         tileLocation[1] = tileLocation[1] + tileSize[1] #and move the y co-ord down by the height of one tile
-        #tileLocation[1] = tileLocation[0] + tileSize[1] #?
         
     else: # (tileLocation[0] < mapSize[0]): #if not past the edge
         tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
