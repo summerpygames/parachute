@@ -23,9 +23,6 @@ tileMap = [' ']
 j=0
 #convert the map into and array after reading, for better speed (maybe)
 tileMap = list(mapString)
-#for i in mapString:
-#    tileMap[j] = mapString(j)#mapString(j) #tileMap[i].insert(i, mapString)
-#    j=j+1
 mapString = mapString + "alkjsfinm"
 print mapString
 # tile file names for refering later 
