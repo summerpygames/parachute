@@ -17,9 +17,6 @@ import pygame, sys
 
 print "init"
 
-tileSize = [50, 50]
-screenSize = width, height = 1200, 900 # screen res of the XO laptops
-
 """
 symbol list:
 
@@ -34,7 +31,7 @@ game tile mapper names
 """
 
 #ascii tile map for custom levels
-oldTileMap = """wwwwwwwwwwwwwwwwwwwwwwww
+tileMap = """wwwwwwwwwwwwwwwwwwwwwwww
 wwww(=)w(=====)www(==)ww
 >wwwwwwwwwwwwwwwwwwwwww<
 o>wwwww(===)wwwwwwwwww<o
@@ -51,11 +48,10 @@ oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
 oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-"""
+oo|wwwwwwwwwwwwwwwwww|oo"""
 
 #good tile map codewise, no newlines, etc, but harder on the users/devs eyes, could strip all whitespace from the old style one and output to a new var instead ("string are immutable"...)
-tileMap = """wwwwwwwwwwwwwwwwwwwwwwwwwwww(=)w(=====)www(==)ww>wwwwwwwwwwwwwwwwwwwwww<o>wwwww(===)wwwwwwwwww<ooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oo"""
+#tileMap = """wwwwwwwwwwwwwwwwwwwwwwwwwwww(=)w(=====)www(==)ww>wwwwwwwwwwwwwwwwwwwwww<o>wwwww(===)wwwwwwwwww<ooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oo"""
 
 # tile file names for ease 
 land = "land.bmp"
@@ -71,14 +67,12 @@ logMiddle = "logMiddle.bmp"
 logEndLeft = "logEndLeft.bmp"
 logEndRight = "logEndRight.bmp"
 
-
-
-
-
 mapSize = [24, 18] #number of tiles for the screen
 tileLocation = [0, 0] #starting x and y location for tile printing
 mapArea = mapSize[0] * mapSize[1] #area of tile map, set with the number of tiles
 fileLocation = "data\\" #dir for all files, data and images, setting as a filename allows easier access
+tileSize = [50, 50]
+screenSize = width, height = 1200, 900 # screen res of the XO laptops
 
 tileChar = " " # set to a blank char at the start, read later as a single letter from the map string for image setting
 
@@ -98,17 +92,11 @@ font.render("loading...", True, white)
 
 font.render(tileChar, True, white) #print the tile letter
 
-#i = 0 # location counting device
-
-#while (i < mapArea):
-#for i in tileMap:
 for tileChar in tileMap:
-    print "\nPRE letter assignment"
+    #old, while loop ver:
     #tileChar = tileMap[(i)] #% mapSize[0])] #sets the tileChar to the letter standing for the images by reading the string of tiles like an array
     
     tileImage = pygame.image.load(fileLocation + liquid).convert()
-
-    print "tileChar: (" + tileChar + ")\n"
 
     if tileChar == "w" : #water tile
         tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the land tile
@@ -120,7 +108,7 @@ for tileChar in tileMap:
         tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the land tile
         
     elif tileChar == "(":
-        tileImage = pygame.image.load(fileLocation + logEnd).convert() #sets to the image for the land tile
+        tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the land tile
         
     elif tileChar == ")":
         tileImage = pygame.image.load(fileLocation + logEnd).convert() #sets to the image for the land tile
@@ -139,8 +127,8 @@ for tileChar in tileMap:
     screen.blit(tileImage, tileRect) #"blits", draw pixels into buffer for display
 
     pygame.display.flip() #moves blits onto sceen
-
-    if (tileLocation[0] >= mapSize[0]): #if x co-ord is at the right edge, bigger than the map size
+    #not this: mapSize[0]*tileSize[0] == mapPixelSize[0]
+    if (tileLocation[0] >= width): #if x co-ord is at the right edge, bigger than the map size
         tileLocation[0] = 0 #set the draw location back to the left edge
         tileLocation[1] = tileLocation[1] + tileSize[1] #and move the y co-ord down by the height of one tile
         #tileLocation[1] = tileLocation[0] + tileSize[1] #?
@@ -148,13 +136,7 @@ for tileChar in tileMap:
     else: # (tileLocation[0] < mapSize[0]): #if not past the edge
         tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
 
-    print "\nBefore i++, i =="
-    #print i
-
-    #i=i+1
-
-print "exited while loop"
-#pygame.display.flip() #moves blits onto sceen
+pygame.display.flip() #moves blits onto sceen
 
 pygame.font.quit()
 
