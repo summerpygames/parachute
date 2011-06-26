@@ -1,53 +1,34 @@
 # tileMapper.py
-# for "Mind The Gap"
+# For "Mind The Gap"
 # maps out the image tiles for the background of the game
-#
 # git: http://www.github.com/summerpygames/parachute
 # 
 # TODO:
 # probaly needs to be in a function, with image sets as inputs, for each different world
 # 
-# 
- 
+#-josh
+#
+
 import pygame, sys
 
-"""
-symbol list:
+screenSize = width, height = 1200, 900 # screen res of the XO laptops
+screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
 
-game tile mapper names
-1 liquid w
-2 land (ground) o
-3 liquid by land |
-4 liquid/ land corner /
-5 liquid over land 
-6 log end -
-7 log middle =
-"""
+mapString = "" #sets the map to an empty string first, incase the file cannot be opened
+mapStringFile = file("tileMap.txt", "r") #prepares the file for reading
+mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
+mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
-#ascii tile map for custom levels: working!
-tileMap = """wwwwwwwwwwwwwwwwwwwwwwww
-wwww(=)w(=====)www(==)ww
->wwwwwwwwwwwwwwwwwwwwww<
-o>wwwww(===)wwwwwwwwww<o
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwww(=====)wwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo>wwwwwwwwwwwwwwwwww<oo
-ooowwwwwwwwwwwwwwwwwwooo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo
-oo|wwwwwwwwwwwwwwwwww|oo"""
-
-#good tile map codewise, no newlines, etc, but harder on the users/devs eyes, could strip all whitespace from the old style one and output to a new var instead ("string are immutable"...)
-#tileMap = """wwwwwwwwwwwwwwwwwwwwwwwwwwww(=)w(=====)www(==)ww>wwwwwwwwwwwwwwwwwwwwww<o>wwwww(===)wwwwwwwwww<ooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oooo|wwwwwwwwwwwwwwwwww|oo"""
-
-# tile file names for ease 
+tileMap = [' ']
+j=0
+#convert the map into and array after reading, for better speed (maybe)
+tileMap = list(mapString)
+#for i in mapString:
+#    tileMap[j] = mapString(j)#mapString(j) #tileMap[i].insert(i, mapString)
+#    j=j+1
+mapString = mapString + "alkjsfinm"
+print mapString
+# tile file names for refering later 
 land = "land.bmp"
 liquid = "liquid.bmp"
 
@@ -68,13 +49,7 @@ tileLocation = [0, 0] #starting x and y location for tile printing
 mapArea = mapSize[0] * mapSize[1] #area of tile map, set with the number of tiles
 fileLocation = "data\\" #dir for all files, data and images, setting as a filename allows easier access
 tileSize = [50, 50]
-screenSize = width, height = 1200, 900 # screen res of the XO laptops
-
 tileChar = " " # set to a blank char at the start, read later as a single letter from the map string for image setting
-
-
-screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
-print "\npost init"
 
 pygame.font.init() #init fonts for later
 
@@ -112,45 +87,38 @@ for tileChar in tileMap:
     
     tileImage = pygame.image.load(fileLocation + liquid).convert()
 
-    if tileChar == "w" : #water tile
+    if tileChar == "w" : #if the char stands for the water tile
         #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
         tileImage = liquidI
 
-    elif tileChar == "o" : #water tile
+    elif tileChar == "o" :
         #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
         tileImage = landI
 
-
+    #detects the matching char from the string and matches it with the right image
     elif tileChar == "<":
-        #tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the tile
-        tileImage = liquidLandCornerI
+        tileImage = liquidLandCornerI #sets the tileImage to the picture loaded for the tile, so we can always refer to the current tile with the same name during each loop
     elif tileChar == ">":
-        #tileImage = pygame.image.load(fileLocation + liquidLandCorner).convert() #sets to the image for the tile
-        tileImage = landLiquidCornerI
+        tileImage = landLiquidCornerI #''
 
     elif tileChar == "=":
-        #tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the tile
         tileImage = logMiddleI
     elif tileChar == "(":
-        #tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the tile
         tileImage = endLogI
     elif tileChar == ")":
-        #tileImage = pygame.image.load(fileLocation + logEnd).convert() #sets to the image for the tile
         tileImage = logEndI
 
     elif tileChar == "]":
-        #tileImage = pygame.image.load(fileLocation + liquidByLand).convert() #sets to the image for the tile
         tileImage = landByLiquidI
     elif tileChar == "[":
-        #tileImage = pygame.image.load(fileLocation + liquidByLand).convert() #sets to the image for the tile
         tileImage = liquidByLandI
 
     elif tileChar == "_":
-        #tileImage = pygame.image.load(fileLocation + logMiddle).convert() #sets to the image for the tile
         tileImage = liquidOverLandI
 
+    else: #if the char does not match any of the valid symbols, default the image to water
+        tileImage = liquidI
 
-    ###tileImage = pygame.image.load(fileLocation + ground).convert()    
     tileRect = tileImage.get_rect()
 
     tileRect = tileRect.move(tileLocation[0], tileLocation[1]) #move draw location to the right spot, (x,y)
