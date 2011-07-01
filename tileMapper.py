@@ -23,7 +23,7 @@ tileMap = [' ']
 j=0
 #convert the map into and array after reading, for better speed (maybe)
 tileMap = list(mapString)
-mapString = mapString + "alkjsfinm"
+mapString = mapString + "..."
 print mapString
 # tile file names for refering later 
 land = "land.bmp"
@@ -48,17 +48,15 @@ fileLocation = "data\\" #dir for all files, data and images, setting as a filena
 tileSize = [50, 50]
 tileChar = " " # set to a blank char at the start, read later as a single letter from the map string for image setting
 
+
 pygame.font.init() #init fonts for later
-
 #trying to make a loading screen, NEED to do in parralel while the image buffering is actually running (at the blit comomand in the while?)
-font = pygame.font.SysFont("Times New Roman", 30)
-white = 255, 255, 255
-font.render("loading", True, white)
-font.render("loading..", True, white)
-font.render("loading..", True, white)
-font.render("loading...", True, white)
+font = pygame.font.SysFont("Times New Roman", 18)
+white = 000, 255, 255
+text = font.render("loading", True, white)
+screen.blit(text, (600,450))
 
-font.render(tileChar, True, white) #print the tile letter
+
 
 #### Load images beforehand for better blit times, etc
 liquidI = pygame.image.load(fileLocation + liquid).convert() #load the image tile and sets it to a variable for later
@@ -77,24 +75,19 @@ endLogI = pygame.image.load(fileLocation + endLog).convert() #load the image til
 liquidByLandI = pygame.image.load(fileLocation + liquidByLand).convert() #load the image tile and sets it to a variable for later
 landByLiquidI = pygame.image.load(fileLocation + landByLiquid).convert() #load the image tile and sets it to a variable for later
 
-        
-for tileChar in tileMap:
-    #old, while loop ver:
-    #tileChar = tileMap[(i)] #% mapSize[0])] #sets the tileChar to the letter standing for the images by reading the string of tiles like an array
-    
-    tileImage = pygame.image.load(fileLocation + liquid).convert()
 
-    if tileChar == "w" : #if the char stands for the water tile
+def tileCharRead(tileChar):
+    #sets the tileImage to the picture loaded for the tile, so we can always refer to the current tile with the same name during each loop
+    #detects the matching char from the string and matches it with the right image
+    if tileChar == "w" : #if the char stands for the water tile 
         #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
         tileImage = liquidI
 
     elif tileChar == "o" :
-        #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
         tileImage = landI
 
-    #detects the matching char from the string and matches it with the right image
     elif tileChar == "<":
-        tileImage = liquidLandCornerI #sets the tileImage to the picture loaded for the tile, so we can always refer to the current tile with the same name during each loop
+        tileImage = liquidLandCornerI 
     elif tileChar == ">":
         tileImage = landLiquidCornerI #''
 
@@ -116,19 +109,50 @@ for tileChar in tileMap:
     else: #if the char does not match any of the valid symbols, default the image to water
         tileImage = liquidI
 
-    tileRect = tileImage.get_rect()
+    return tileImage
 
-    tileRect = tileRect.move(tileLocation[0], tileLocation[1]) #move draw location to the right spot, (x,y)
-    screen.blit(tileImage, tileRect) #"blits", draw pixels into buffer for display
+            
+def tileMapPrint():        
+    for tileChar in tileMap:
 
-    if (tileLocation[0] >= width): #if x co-ord is at the right edge, bigger than the map size
-        tileLocation[0] = 0 #set the draw location back to the left edge
-        tileLocation[1] = tileLocation[1] + tileSize[1] #and move the y co-ord down by the height of one tile
+        tileImage = tileCharRead(tileChar)
         
-    else: # (tileLocation[0] < mapSize[0]): #if not past the edge
-        tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
+        tileRect = tileImage.get_rect()
 
-pygame.display.flip() #moves blits onto sceen
+        tileRect = tileRect.move(tileLocation[0], tileLocation[1]) #move draw location to the right spot, (x,y)
+        screen.blit(tileImage, tileRect) #"blits", draw pixels into buffer for display
+
+        if (tileLocation[0] >= width): #if x co-ord is at the right edge, bigger than the map size
+            tileLocation[0] = 0 #set the draw location back to the left edge
+            tileLocation[1] = tileLocation[1] + tileSize[1] #and move the y co-ord down by the height of one tile
+            
+        elif (tileLocation[0] < width): #if not past the edge
+            tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
+
+        else:
+            print "error"
+            return 1
+    pygame.display.flip() #moves blits onto scene
+
+"""
+def exitCheck():
+    
+    #tileCharRead()
+    exitCode = False
+    while exitCode == False:
+        event = pygame.event.get()
+        if event.type == KEYDOWN_DOWN:
+            if (event.key == K_ESCAPE or event.key == K_ESCAPE or event.key == K_q or event.key == K_BACKSPACE):
+                exitCode = True
+    return exitCode
+
+while exitCheck() != True:
+    tileMapPrint()
+"""
+tileMapPrint()
+
+#def main()
+
 
 pygame.font.quit()
 
@@ -138,4 +162,3 @@ pygame.font.quit()
 
 #I think there is a function in python that can show where the program was called from, example: the menu, and then we couldreopen that program after
 #this is finished (or on exit code or error) instead of keeping it running in the background and not blitting, either could theoretically work though. (-josh)
-
