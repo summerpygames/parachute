@@ -14,17 +14,61 @@ import pygame, sys
 screenSize = width, height = 1200, 900 # screen res of the XO laptops
 screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
 
+pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
+
 mapString = "" #sets the map to an empty string first, incase the file cannot be opened
 mapStringFile = file("tileMap.txt", "r") #prepares the file for reading
 mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
 mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
-tileMap = [' ']
-j=0
-#convert the map into and array after reading, for better speed (maybe)
+tileMap=[' ']
+
+"""
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+"""
+
+
+
+
 tileMap = list(mapString)
-mapString = mapString + "..."
-print mapString
+
+j=0
+k=0
+#convert the map into and array after reading, for better speed (maybe)
+
+"""
+for  i in mapString:
+    if i != " " and i != "\n":
+        tileMap[j][k] = mapString(j)#list(mapString,)
+        j=j+1
+        
+    else:
+        j=0
+        k=k+1
+        tileMap[j][k] = mapString(j)
+        j=j+1
+
+#for k in mapString:
+#    print k + ", "
+"""
+
 # tile file names for refering later 
 land = "land.bmp"
 liquid = "liquid.bmp"
@@ -51,9 +95,9 @@ tileChar = " " # set to a blank char at the start, read later as a single letter
 
 pygame.font.init() #init fonts for later
 #trying to make a loading screen, NEED to do in parralel while the image buffering is actually running (at the blit comomand in the while?)
-font = pygame.font.SysFont("Times New Roman", 18)
-white = 000, 255, 255
-text = font.render("loading", True, white)
+font = pygame.font.SysFont("Veranda", 48)
+white = 255, 255, 255
+text = font.render("loading...", True, white)
 screen.blit(text, (600,450))
 
 
@@ -134,6 +178,26 @@ def tileMapPrint():
             return 1
     pygame.display.flip() #moves blits onto scene
 
+
+
+"""
+def objectMove(tileMap):
+    #piece = "(=)"
+    
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_DOWN:
+                #piece = ""
+                tileMap.pop(([4][4]))
+                tileMap.pop(([5][4]))
+                tileMap.pop(([6][4]))
+                tileMap.insert("(=)", ([4][4]))
+"""              
+#while 1:
+
+tileMapPrint()
+    #objectMove(tileMap)
+
 """
 def exitCheck():
     
@@ -149,7 +213,7 @@ def exitCheck():
 while exitCheck() != True:
     tileMapPrint()
 """
-tileMapPrint()
+
 
 #def main()
 
