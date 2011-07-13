@@ -1,0 +1,9 @@
+Mind The Gap
+
+The tileMapper.py file reads a .txt file called tileMap, with an ascii version of the map in it, and outputs it as images (-josh)
+
+
+TODO:
+(please try to keep images and sounds within the \\data folder.)
+
+Someone please add the menu code, we need to start intergrating it :)
