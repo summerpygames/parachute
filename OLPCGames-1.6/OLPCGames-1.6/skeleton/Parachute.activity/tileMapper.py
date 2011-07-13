@@ -157,12 +157,12 @@ def tileMapPrint():    #prints the tiles from the map
 
 
 def objectMove(tileMap, tileObjectBuffer):
-	tileObjectBuffer = ""
-	tileObjectBuffer = tileMap[0] + tileMap[1] + tileMap[2]
+	#tileObjectBuffer = ""
+	#tileObjectBuffer = tileMap[0] + tileMap[1] + tileMap[2]
 	tileMap.pop(0)
 	tileMap.pop(1)
 	tileMap.pop(2)
-	tileMap.insert(0, "w")
+	#tileMap.insert(1, "w")
 
 	tileMap.insert(1, tileObjectBuffer) 
 	
