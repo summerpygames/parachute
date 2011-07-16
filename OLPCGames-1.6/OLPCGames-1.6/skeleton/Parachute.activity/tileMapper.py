@@ -150,7 +150,11 @@ def tileMapPrint():    #prints the tiles from the map
         elif (tileLocation[0] < width): #if not past the edge
             tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
 
-        else:
+        elif (tileLocation[0] == width and tileLocation[1] == height): #if at the end of the ENTIRE array,
+		tileLocation[0] = 0 # reset to the start					
+		tileLocation[1] = 0
+	
+	else:
             print "error"
             return 1
     pygame.display.flip() #moves blits onto scene
@@ -159,46 +163,53 @@ def tileMapPrint():    #prints the tiles from the map
 def objectMove(tileMap, tileObjectBuffer):
 	#tileObjectBuffer = ""
 	#tileObjectBuffer = tileMap[0] + tileMap[1] + tileMap[2]
-	tileMap.pop(0)
-	tileMap.pop(1)
-	tileMap.pop(2)
-	#tileMap.insert(1, "w")
+	#tileMap.pop(0)
+	#tileMap.pop(0)
+	#tileMap.pop(0)
 
-	tileMap.insert(1, tileObjectBuffer) 
-	
+	tileMap.insert(0, ")") 
+	tileMap.pop(4)
+	#tileMap.insert(1, tileObjectBuffer) 
+	#tileMap.insert(0, ")")
+	#tileMap.insert(0, "=")
+	#tileMap.insert(0, "()")
 
 
 def getInput():	
-	getKeys = 1
-	while getKeys == 1:
+	getKeys = True
+	while getKeys:
 		for event in pygame.event.get():
 			if event.type  == pygame.KEYDOWN:
 				if event.key == pygame.K_UP:
 					objectMove(tileMap, "(=)")
-					getKeys = 0
+					getKeys = False
 					print "K_UP\n"
 				if event.key == pygame.K_LEFT:
 					objectMove(tileMap, "(=)")
-					getKeys = 0
+					getKeys = False
 				if event.key == pygame.K_DOWN:
 					objectMove(tileMap, "(=)")
-					getKeys = 0
+					getKeys = False
 				if event.key == pygame.K_RIGHT:
 					objectMove(tileMap, "(=)")
-					getKeys = 0
+					getKeys = False
 				if event.key == pygame.K_RETURN:
 					objectMove(tileMap, "(=)")
-					getKeys = 0
+					getKeys = False
+				else:
+					getKeys = False
 def waitToExit():
 	exitIn = raw_input("\n(press enter to quit)\n")
 	pygame.quit()
 
 
-while 1:
+while True:
 	tileMapPrint()
 	getInput()
-	waitToExit()
-
+	tileMapPrint()
+	#waitToExit()
+	print tileMap
+	print "/n/nPOSTPRINT"
 
 
 """
