@@ -1,0 +1,4 @@
+include NEWS README
+include olpcgames/COPYING
+recursive-include olpcgames *.py
+recursive-include skeleton *.py *.svg *.in NEWS *.info 

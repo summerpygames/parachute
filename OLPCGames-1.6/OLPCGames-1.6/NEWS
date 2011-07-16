@@ -1,0 +1,59 @@
+OLPCGames 1.6
+
+    * Provide File-reading/writing request functionality
+    * Provide ability to block the GTK event loop for particular 
+        operations which GTK expects to be synchronous calls
+        but which we have to process asynchronously via the 
+        Pygame eventwrap queue.
+
+OLPCGames 1.5
+
+    * require explicit imports of sub-modules
+    * reduce "novelty" of the eventwrap module to more closely match
+        the pygame.event interface, adds event-type-filtering, eliminates
+        the extra function for querying the time-since-last-event 
+    * pausescreen now tracks time-since-last-event itself
+    * move the manifest-building script into olpcgames directory
+
+OLPCGames 1.4
+
+    * provide pause-screen functionality for reducing system load 
+    * Get overlay video (i.e. video in a window over your pygame window)
+        working.  Caused change in the base class for PygameCanvas
+    * make the global "widget" follow naming conventions, now "WIDGET"
+    * explicitly log top-level errors in the pygame loop for developers
+    * use mock/synthetic events for all Pygame event-loop events (work 
+        around issues with older Pygame versions)
+    * add underline support to pango font
+
+        -- Mike Fletcher <mcfletch@vrplumber.com>
+
+OLPCGames 1.3
+
+    * Add svgsprite class to render svg in pygame
+    * Fixes to skeleton project/project generator
+
+        -- Mike Fletcher <mcfletch@vrplumber.com>
+
+OLPCGames 1.2
+
+	* Bug fix for text event's .unicode value, was being reported as 
+	  an integer, rather than as a unicode string value
+	* Minor docstring fixes
+
+        -- Mike Fletcher <mcfletch@vrplumber.com>  Mon, 10 Dec 2007
+
+
+OLPCGames 1.1
+
+    * camera: async api, heavily refactored, adds test source support
+    * mesh: modern Telepathy APIs, convenience methods, cleanup
+    * pangofont: transparent colors, older pygtk support, test block
+    * events: capture remaining pygame events and forward to the new queue
+    * activity: auto-sizing, refactored, global reference available
+    * fix focus bug after sharing
+    * more docstrings throughout
+    * absolute imports so we don't run afoul of later Python versions
+
+        -- Mike Fletcher <mcfletch@vrplumber.com>  Mon, 3 Dec 2007
+        -- Andrew Clunis <andrew@orospakr.ca>  Mon, 3 Dec 2007

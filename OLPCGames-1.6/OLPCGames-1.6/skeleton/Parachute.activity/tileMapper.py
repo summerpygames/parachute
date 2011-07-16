@@ -18,32 +18,32 @@ pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
 
 mapString = "" #sets the map to an empty string first, incase the file cannot be opened
 mapStringFile = file(os.path.join("data", "tileMap.txt" ), "r") #prepares the file for reading
+
+fp=open(os.path.join("data", "tileMap.txt"), r)
+
+for line in fp:
+	tileMap[x][y] =  
+	
+
 mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
 mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
-tileMap=['']
+#tileMap=['']
 
-tileMap = list(mapString)
+#tileMap = list(mapString)
 
-j=0
-k=0
+x=0
+y=0
 #convert the map into and array after reading, for better speed (maybe)
 
-"""
-for  i in mapString:
-    if i != " " and i != "\n":
-        tileMap[j][k] = mapString(j)#list(mapString,)
-        j=j+1
-        
-    else:
-        j=0
-        k=k+1
-        tileMap[j][k] = mapString(j)
-        j=j+1
+#for  i in mapString:
+#    if i != "\n": #\n is newline, it seperates each line of the map, 
+#        tileMap[x][y] = mapString(x)#list(mapString,)
+#        x=x+1
 
 #for k in mapString:
 #    print k + ", "
-"""
+
 
 # tile file names for refering later 
 land = "land.png"
@@ -163,17 +163,19 @@ def tileMapPrint():    #prints the tiles from the map
 def objectMove(tileMap, tileObjectBuffer):
 	#tileObjectBuffer = ""
 	#tileObjectBuffer = tileMap[0] + tileMap[1] + tileMap[2]
-	#tileMap.pop(0)
-	#tileMap.pop(0)
-	#tileMap.pop(0)
-
-	tileMap.insert(0, ")") 
-	tileMap.pop(4)
+	tileMap.pop(0)
+	tileMap.pop(0)
+	tileMap.pop(0)
+	tileMap.pop(0)
+	#tileMap.insert(0, ")") 
+	#tileMap.pop(4)
 	#tileMap.insert(1, tileObjectBuffer) 
-	#tileMap.insert(0, ")")
-	#tileMap.insert(0, "=")
-	#tileMap.insert(0, "()")
-
+	
+	tileMap.insert(0, ")")
+	tileMap.insert(0, "=")
+	tileMap.insert(0, "(")
+	
+	tileMap.insert(0, "w")
 
 def getInput():	
 	getKeys = True
@@ -196,11 +198,17 @@ def getInput():
 				if event.key == pygame.K_RETURN:
 					objectMove(tileMap, "(=)")
 					getKeys = False
+				
+				if event.key == pygame.K_ESCAPE:
+					#objectMove(tileMap, "(=)")
+					waitToExit()
+					getKeys = False
 				else:
 					getKeys = False
 def waitToExit():
-	exitIn = raw_input("\n(press enter to quit)\n")
+	#exitIn = raw_input("\n(press enter to quit)\n")
 	pygame.quit()
+	
 
 
 while True:

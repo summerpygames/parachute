@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: OLPCGames
+Version: 1.6
+Summary: Utilities for writing games on the OLPC platform
+Home-page: http://wiki.laptop.org/go/Pygame_wrapper
+Author: Noah Kantrowitz, Lincoln Quirk, Mike Fletcher
+Author-email: noah@laptop.org, lincoln@techhouse.org, mcfletch@vrplumber.com
+License: BSD
+Description: UNKNOWN
+Keywords: olpc games sugar pygame
+Platform: UNKNOWN
