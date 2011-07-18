@@ -16,38 +16,27 @@ screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to th
 
 pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
 
-mapString = "" #sets the map to an empty string first, incase the file cannot be opened
-mapStringFile = file(os.path.join("data", "tileMap.txt" ), "r") #prepares the file for reading
+#mapString = "" #sets the map to an empty string first, incase the file cannot be opened
+#mapStringFile = file(os.path.join("data", "tileMap.txt" ), "r") #prepares the file for reading
 
-fp=open(os.path.join("data", "tileMap.txt"), r)
+mapString = open(os.path.join("data", "tileMap.txt"), "r")
 
-for line in fp:
-	tileMap[x][y] =  
+tileMap = []
+for line in mapString:
+	tileMap.append(list(line.strip()))#map(string, line.split()))
 	
+for i in tileMap:
+	print i
 
-mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
-mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
-
-#tileMap=['']
+print tileMap
+#mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
+#mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
 #tileMap = list(mapString)
 
-x=0
-y=0
-#convert the map into and array after reading, for better speed (maybe)
-
-#for  i in mapString:
-#    if i != "\n": #\n is newline, it seperates each line of the map, 
-#        tileMap[x][y] = mapString(x)#list(mapString,)
-#        x=x+1
-
-#for k in mapString:
-#    print k + ", "
-
-
 # tile file names for refering later 
 land = "land.png"
-liquid = "liquid.bmp"
+liquid = "liquid.png"
 
 liquidByLand = "liquidByLand.png"
 landByLiquid = "landByLiquid.png"
@@ -78,7 +67,7 @@ screen.blit(text, (600,450))
 
 
 
-#### Load images beforehand for better blit times, etc
+#### Load images beforehand for better blit times
 liquidI = pygame.image.load(os.path.join("data", liquid)).convert() #load the image tile and sets it to a variable for later
 landI = pygame.image.load(os.path.join("data", land)).convert() #load the image tile and sets it to a variable for later
 
@@ -101,7 +90,6 @@ def tileCharRead(tileChar): #picks the correct image for each ascii stand-in
     #sets the tileImage to the picture loaded for the tile, so we can always refer to the current tile with the same name during each loop
     #detects the matching char from the string and matches it with the right image
     if tileChar == "w" : #if the char stands for the water tile 
-        #tileImage = pygame.image.load(fileLocation + liquid).convert() #sets to the image for the tile
         tileImage = liquidI
 
     elif tileChar == "o" :
@@ -110,7 +98,7 @@ def tileCharRead(tileChar): #picks the correct image for each ascii stand-in
     elif tileChar == "<":
         tileImage = liquidLandCornerI 
     elif tileChar == ">":
-        tileImage = landLiquidCornerI #''
+        tileImage = landLiquidCornerI 
 
     elif tileChar == "=":
         tileImage = logMiddleI
@@ -151,12 +139,14 @@ def tileMapPrint():    #prints the tiles from the map
             tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
 
         elif (tileLocation[0] == width and tileLocation[1] == height): #if at the end of the ENTIRE array,
-		tileLocation[0] = 0 # reset to the start					
-		tileLocation[1] = 0
+			tileLocation[0] = 0 # reset to the start					
+			tileLocation[1] = 0
 	
-	else:
-            print "error"
-            return 1
+        else:
+			tileLocation[0] = 0 # reset to the start                                        
+			tileLocation[1] = 0
+			print "error"
+			return 1
     pygame.display.flip() #moves blits onto scene
 
 
@@ -185,7 +175,6 @@ def getInput():
 				if event.key == pygame.K_UP:
 					objectMove(tileMap, "(=)")
 					getKeys = False
-					print "K_UP\n"
 				if event.key == pygame.K_LEFT:
 					objectMove(tileMap, "(=)")
 					getKeys = False
@@ -198,9 +187,8 @@ def getInput():
 				if event.key == pygame.K_RETURN:
 					objectMove(tileMap, "(=)")
 					getKeys = False
-				
-				if event.key == pygame.K_ESCAPE:
-					#objectMove(tileMap, "(=)")
+
+				if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q):
 					waitToExit()
 					getKeys = False
 				else:
@@ -209,8 +197,6 @@ def waitToExit():
 	#exitIn = raw_input("\n(press enter to quit)\n")
 	pygame.quit()
 	
-
-
 while True:
 	tileMapPrint()
 	getInput()
@@ -219,32 +205,8 @@ while True:
 	print tileMap
 	print "/n/nPOSTPRINT"
 
-
-"""
-def exitCheck():
-    
-    #tileCharRead()
-    exitCode = False
-    while exitCode == False:
-        event = pygame.event.get()
-        if event.type == KEYDOWN_DOWN:
-            if (event.key == K_ESCAPE or event.key == K_ESCAPE or event.key == K_q or event.key == K_BACKSPACE):
-                exitCode = True
-    return exitCode
-
-while exitCheck() != True:
-    tileMapPrint()
-"""
-
-
 #def main()
 
 
 pygame.font.quit()
 
-#don't do this yet:
-#sys.exit()
-
-
-#I think there is a function in python that can show where the program was called from, example: the menu, and then we couldreopen that program after
-#this is finished (or on exit code or error) instead of keeping it running in the background and not blitting, either could theoretically work though. (-josh)
