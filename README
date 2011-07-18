@@ -3,7 +3,8 @@ Mind The Gap
 The tileMapper.py file reads a .txt file called tileMap, with an ascii version of the map in it, and outputs it as images (-josh)
 
 
-
+7/18/11:
+map is now 2d!!
 
 7/16/11
 uptaded folder structure, everthing in main dir now, less confusing
