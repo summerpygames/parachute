@@ -28,7 +28,7 @@ for line in mapString:
 for i in tileMap:
 	print i
 
-print tileMap
+#print tileMap
 #mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
 #mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
@@ -50,7 +50,7 @@ logEnd = "logEnd.png"
 logMiddle = "logMiddle.png"
 endLog = "endLog.png"
 
-mapSize = [24, 18] #number of tiles for the screen
+mapSize = [18, 24] #number of tiles for the screen
 tileLocation = [0, 0] #starting x and y location for tile printing
 mapArea = mapSize[0] * mapSize[1] #area of tile map, set with the number of tiles
 fileLocation = "data" #dir for all files, data and images, setting as a filename allows easier access
