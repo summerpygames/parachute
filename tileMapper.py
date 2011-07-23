@@ -16,9 +16,6 @@ screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to th
 
 pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
 
-#mapString = "" #sets the map to an empty string first, incase the file cannot be opened
-#mapStringFile = file(os.path.join("data", "tileMap.txt" ), "r") #prepares the file for reading
-
 mapString = open(os.path.join("data", "tileMap.txt"), "r")
 
 tileMap = []
@@ -28,11 +25,7 @@ for line in mapString:
 for i in tileMap:
 	print i
 
-#print tileMap
-#mapString = mapStringFile.read() #read the chars one by one, all of them into the variable
 #mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
-
-#tileMap = list(mapString)
 
 # tile file names for refering later 
 land = "land.png"
@@ -50,11 +43,11 @@ logEnd = "logEnd.png"
 logMiddle = "logMiddle.png"
 endLog = "endLog.png"
 
-mapSize = [18, 24] #number of tiles for the screen
+mapSize = [24, 18] #number of tiles for the screen
 tileLocation = [0, 0] #starting x and y location for tile printing
 mapArea = mapSize[0] * mapSize[1] #area of tile map, set with the number of tiles
 fileLocation = "data" #dir for all files, data and images, setting as a filename allows easier access
-tileSize = [50, 50]
+tileSize = 50
 tileChar = " " # set to a blank char at the start, read later as a single letter from the map string for image setting
 
 
@@ -65,9 +58,7 @@ white = 255, 255, 255
 text = font.render("loading...", True, white)
 screen.blit(text, (600,450))
 
-
-
-#### Load images beforehand for better blit times
+# Load images beforehand for better blit times
 liquidI = pygame.image.load(os.path.join("data", liquid)).convert() #load the image tile and sets it to a variable for later
 landI = pygame.image.load(os.path.join("data", land)).convert() #load the image tile and sets it to a variable for later
 
@@ -122,32 +113,23 @@ def tileCharRead(tileChar): #picks the correct image for each ascii stand-in
 
             
 def tileMapPrint():    #prints the tiles from the map    
-    for tileChar in tileMap:
+	xCoord = 0
+	yCoord = 0
+	for line in tileMap:  #read each line in the 2d array
+		for tileChar in line:   #then read each char from that sub-array
+			tileImage = tileCharRead(tileChar)	#load the matching image
+   			tileRect = tileImage.get_rect()		#get the rectangle
+			tileRect = tileRect.move(xCoord, yCoord) #move draw location to the right spot, (x,y)
+			screen.blit(tileImage, tileRect) #blits, draw pixels into buffer for display
 
-        tileImage = tileCharRead(tileChar)
-        
-        tileRect = tileImage.get_rect()
+			if (xCoord < (23 * tileSize)): #if not past the right edge of the line/screen
+				xCoord += tileSize
+			else: 
+				xCoord = 0
 
-        tileRect = tileRect.move(tileLocation[0], tileLocation[1]) #move draw location to the right spot, (x,y)
-        screen.blit(tileImage, tileRect) #"blits", draw pixels into buffer for display
-
-        if (tileLocation[0] >= width): #if x co-ord is at the right edge, bigger than the map size
-            tileLocation[0] = 0 #set the draw location back to the left edge
-            tileLocation[1] = tileLocation[1] + tileSize[1] #and move the y co-ord down by the height of one tile
-            
-        elif (tileLocation[0] < width): #if not past the edge
-            tileLocation[0] = tileLocation[0] + tileSize[1] #move the tile drawing to the right by the width of one tile
-
-        elif (tileLocation[0] == width and tileLocation[1] == height): #if at the end of the ENTIRE array,
-			tileLocation[0] = 0 # reset to the start					
-			tileLocation[1] = 0
-	
-        else:
-			tileLocation[0] = 0 # reset to the start                                        
-			tileLocation[1] = 0
-			print "error"
-			return 1
-    pygame.display.flip() #moves blits onto scene
+		if (yCoord < (17 * tileSize)):	
+			yCoord += tileSize
+	pygame.display.flip() #moves blits onto scene
 
 
 def objectMove(tileMap, tileObjectBuffer):
@@ -188,7 +170,7 @@ def getInput():
 					objectMove(tileMap, "(=)")
 					getKeys = False
 
-				if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q):
+				if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q) or (event.key == pygame.K_BACKSPACE) :
 					waitToExit()
 					getKeys = False
 				else:
@@ -201,7 +183,6 @@ while True:
 	tileMapPrint()
 	getInput()
 	tileMapPrint()
-	#waitToExit()
 	print tileMap
 	print "/n/nPOSTPRINT"
 
