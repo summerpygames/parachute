@@ -13,19 +13,23 @@ import pygame, sys, os
 
 screenSize = width, height = 1200, 900 # screen res of the XO laptops
 screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
-
 pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
 
 mapString = open(os.path.join("data", "tileMap.txt"), "r")
+#mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
 tileMap = []
 for line in mapString:
 	tileMap.append(list(line.strip()))#map(string, line.split()))
 	
-for i in tileMap:
-	print i
-
-#mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
+bridge = "("
+#for line in tileMap:
+for line in tileMap:
+	if ((bridge in line) != False):
+		logLocation = line.index('(')
+		print logLocation
+	else: 
+		print "err\n"
 
 # tile file names for refering later 
 land = "land.png"
@@ -139,15 +143,18 @@ def objectMove(tileMap, tileObjectBuffer):
 	tileMap.pop(0)
 	tileMap.pop(0)
 	tileMap.pop(0)
-	#tileMap.insert(0, ")") 
-	#tileMap.pop(4)
-	#tileMap.insert(1, tileObjectBuffer) 
 	
+	tileMap.insert(0, "w")
 	tileMap.insert(0, ")")
 	tileMap.insert(0, "=")
 	tileMap.insert(0, "(")
 	
-	tileMap.insert(0, "w")
+
+	#tileMap.insert(0, ('w', '(', '=', ')')) 
+	#tileMap.pop(4)
+	#tileMap.insert(0, "w") 
+	
+	#tileMap.insert(0, (tileObjectBuffer.split()))
 
 def getInput():	
 	getKeys = True
@@ -179,15 +186,15 @@ def waitToExit():
 	#exitIn = raw_input("\n(press enter to quit)\n")
 	pygame.quit()
 	
-while True:
-	tileMapPrint()
-	getInput()
-	tileMapPrint()
-	print tileMap
-	print "/n/nPOSTPRINT"
+def main(yes):
+	while True:
+		tileMapPrint()
+		getInput()
+		tileMapPrint()
+		print tileMap
+		print yes*10
 
-#def main()
-
+#main("y")
 
 pygame.font.quit()
 

@@ -1,21 +1,31 @@
+tileMap = [['(', '=', ')', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
+           ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
+           ['>', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '(', '=', '=', '=', '=', ')', 'w', 'w', 'w', '<'],
+           ['o', '>', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '<', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', '(', '=', ')', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '(', '=', '=', '=', ')', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o'],
+           ['o', 'o', '|', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', '|', 'o', 'o']]
+
+foundLogs = []
 findX = 0
 findY = 0
-foundLog = [[0,0],[0,0]]
-while (findX <= 17) and (found == False):
-    while (findY <= 23) and (found == False):
+while (findX <= 17):
+    while (findY <= 23):
         if tileMap[findX][findY] == "(":
-            foundLog[0] = [findX, findY]
-            while (findY <= 23) and (found == False):
-                findY+= 1
-                if tileMap[findX][findY] == ")":
-                    foundLog[1] = [findX, findY]
-                    found = True
-                    findY += 1
-                    continue
-        if found == True:
-            continue
+            for i in range(findY, 24):
+                if tileMap[findX][i] == ")":
+                    foundLogs.append([findX, findY, (i - findY + 1)])
         findY += 1
-    if found == True:
-        continue
+    findY = 0
     findX += 1
-
