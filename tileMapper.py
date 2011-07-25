@@ -9,7 +9,7 @@
 #-josh
 #
 
-import pygame, sys, os
+import pygame, sys, os, array
 
 screenSize = width, height = 1200, 900 # screen res of the XO laptops
 screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
@@ -125,6 +125,24 @@ def tileMapPrint():    #prints the tiles from the map
 			yCoord += tileSize
 	pygame.display.flip() #moves blits onto scene
 
+logMap = []
+def logMapPrint():
+	#logMap = tileMap
+	#for i in logList:
+	#	logMap.append(tileMap[logList])	
+
+	#logMap = logMap.tostring()#.strip('ow<>|w')
+	#logMap = tileMap
+	#logMap = logMap.extend([logMap.strip('<>|o') for i in logMap]
+	#join([for i in logMap])
+	
+ 	for line in logMap:
+		for i in line:
+			i.replace('o','w')
+		logMap.append(i)
+
+	print logMap
+	
 
 def searchLogs(tileMap):	
 	logX = 0
@@ -145,26 +163,43 @@ def findLogs(tileMap):
 	        if tileMap[findX][findY] == "(":
 	            for i in range(findY, 24):
 	                if tileMap[findX][i] == ")":
-	                    foundLogs.append([findX, findY, (i - findY + 1)])
+	       			foundLogs.append([findX, findY, i])
+          			#foundLogs.append([findX, findY, (i - findY + 1)])
 	        findY += 1
 	    findY = 0
 	    findX += 1
+	print foundLogs
 	return foundLogs
 
 
-def objectMove(tileMap, log):
-	#yCoord = findLogs(tileMap)[0][0]
-	#xCoord = findLogs(tileMap)[0][1]
-	#xLength = findLogs(tileMap)[0][2]
-	tileMap.pop(0)
-	tileMap.pop(0)
-	tileMap.pop(0)
-	tileMap.pop(0)
+def objectMove(tileMap, direction):
+	xCoord = findLogs(tileMap)[0][0]
+	print xCoord
+	yCoord = findLogs(tileMap)[0][1]
+	print yCoord
+	xEnd = findLogs(tileMap)[0][2]
+	print xEnd
+	
+	if direction == 'right':
+	#	for tile in range(xCoord, xEnd):
+		temp = tileMap.pop(xCoord)
+		tileMap.insert(xCoord+1, temp)#tileMap.pop(xCoord))
+	if direction == 'down':
+		tileMap.insert(yCoord+1, tileMap.pop(yCoord))
+	if direction == 'left':
+		tileMap.insert(xCoord-1, tileMap.pop(xCoord))
+	if direction == 'up':
+		tileMap.insert(yCoord-1, tileMap.pop(yCoord))
 
-	tileMap.insert(0, ")")
-	tileMap.insert(0, "=")
-	tileMap.insert(0, "(")
-	tileMap.insert(0, "w")
+
+	#tileMap.pop(0)
+	#tileMap.pop(0)
+	#tileMap.pop(0)
+
+	#tileMap.insert(0, ")")
+	#tileMap.insert(0, "=")
+	#tileMap.insert(0, "(")
+	#tileMap.insert(0, "w")
 	
 	#tileMap.pop[xCoord, ]
 	
@@ -178,16 +213,16 @@ def getInput():
 		for event in pygame.event.get():
 			if event.type  == pygame.KEYDOWN:
 				if event.key == pygame.K_UP:
-					objectMove(tileMap, "(=)")
+					objectMove(tileMap, "up")
 					getKeys = False
 				if event.key == pygame.K_LEFT:
-					objectMove(tileMap, "(=)")
+					objectMove(tileMap, "left")
 					getKeys = False
 				if event.key == pygame.K_DOWN:
-					objectMove(tileMap, "(=)")
+					objectMove(tileMap, "down")
 					getKeys = False
 				if event.key == pygame.K_RIGHT:
-					objectMove(tileMap, "(=)")
+					objectMove(tileMap, "right")
 					getKeys = False
 				if event.key == pygame.K_RETURN:
 					objectMove(tileMap, "(=)")
@@ -205,6 +240,7 @@ def waitToExit():
 def main(yes):
 	while True:
 		tileMapPrint()
+		logMapPrint()
 		getInput()
 		tileMapPrint()
 		print tileMap
