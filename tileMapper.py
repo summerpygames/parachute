@@ -15,22 +15,6 @@ screenSize = width, height = 1200, 900 # screen res of the XO laptops
 screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
 pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
 
-mapString = open(os.path.join("data", "tileMap.txt"), "r")
-#mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
-
-tileMap = []
-for line in mapString:
-	tileMap.append(list(line.strip()))#map(string, line.split()))
-	
-bridge = "("
-#for line in tileMap:
-for line in tileMap:
-	if ((bridge in line) != False):
-		logLocation = line.index('(')
-		print logLocation
-	else: 
-		print "err\n"
-
 # tile file names for refering later 
 land = "land.png"
 liquid = "liquid.png"
@@ -54,9 +38,8 @@ fileLocation = "data" #dir for all files, data and images, setting as a filename
 tileSize = 50
 tileChar = " " # set to a blank char at the start, read later as a single letter from the map string for image setting
 
-
 pygame.font.init() #init fonts for later
-#trying to make a loading screen, NEED to do in parralel while the image buffering is actually running (at the blit comomand in the while?)
+#prints out loading , gets overwritten once done
 font = pygame.font.SysFont("Ariel", 50)
 white = 255, 255, 255
 text = font.render("loading...", True, white)
@@ -75,9 +58,40 @@ logMiddleI = pygame.image.load(os.path.join("data", logMiddle)).convert() #load 
 logEndI = pygame.image.load(os.path.join("data", logEnd)).convert() #load the image tile and sets it to a variable for later
 endLogI = pygame.image.load(os.path.join("data", endLog)).convert() #load the image tile and sets it to a variable for later
 
-
 liquidByLandI = pygame.image.load(os.path.join("data", liquidByLand)).convert() #load the image tile and sets it to a variable for later
 landByLiquidI = pygame.image.load(os.path.join("data", landByLiquid)).convert() #load the image tile and sets it to a variable for later
+
+
+mapString = open(os.path.join("data", "tileMap.txt"), "r")
+#mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
+
+tileMap = []
+for line in mapString:
+	tileMap.append(list(line.strip()))#map(string, line.split()))
+	
+logX = 0
+logY = 0
+logLocation = []
+for line in tileMap: #checks each line 
+	if (("(" in line != False) and (")" in line != False)):
+		logLocation.append([line.index('('), logY, (line.index(')')-line.index('(')) ]) # appends x and y coords, and end-start
+	logY+=1
+print logLocation
+
+
+foundLogs = []
+findX = 0
+findY = 0
+while (findX <= 17):
+    while (findY <= 23):
+        if tileMap[findX][findY] == "(":
+            for i in range(findY, 24):
+                if tileMap[findX][i] == ")":
+                    foundLogs.append([findX, findY, (i - findY + 1)])
+        findY += 1
+    findY = 0
+    findX += 1
+print foundLogs, " ... "
 
 
 def tileCharRead(tileChar): #picks the correct image for each ascii stand-in
@@ -144,11 +158,10 @@ def objectMove(tileMap, tileObjectBuffer):
 	tileMap.pop(0)
 	tileMap.pop(0)
 	
-	tileMap.insert(0, "w")
 	tileMap.insert(0, ")")
 	tileMap.insert(0, "=")
 	tileMap.insert(0, "(")
-	
+	tileMap.insert(0, "w")
 
 	#tileMap.insert(0, ('w', '(', '=', ')')) 
 	#tileMap.pop(4)

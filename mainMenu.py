@@ -10,7 +10,7 @@ def runMenu(screen):
 	runningLoop = 1
 
 	#load the backgrounds
-	mainBackground = pygame.image.load(os.path.join("data", "mainMenu.png")).convert()
+	mainBackground = pygame.image.load(os.path.join("data", "background.png")).convert()#"mainMenu.png")).convert()
 	mainBackgroundRect = mainBackground.get_rect()
 	screen.blit(mainBackground, mainBackgroundRect)
 	

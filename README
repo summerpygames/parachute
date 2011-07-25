@@ -1,17 +1,14 @@
-Mind The Gap
+	This file is part of Mind The Gap
 
-The tileMapper.py file reads a .txt file called tileMap, with an ascii version of the map in it, and outputs it as images (-josh)
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-7/18/11:
-map is now 2d!!
-
-7/16/11
-uptaded folder structure, everthing in main dir now, less confusing
-
-...
-
-TODO:
-(please try to keep images and sounds within the \\data folder.)
-
-Someone please add the menu code, we need to start intergrating it :)
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
