@@ -156,7 +156,17 @@ def objectMove(tileMap, log):
 	yCoord = findLogs(tileMap)[0][0]
 	xCoord = findLogs(tileMap)[0][1]
 	xLength = findLogs(tileMap)[0][2]
+	tileMap.pop(0)
+	tileMap.pop(0)
+	tileMap.pop(0)
+	tileMap.pop(0)
 
+	tileMap.insert(0, ")")
+	tileMap.insert(0, "=")
+	tileMap.insert(0, "(")
+	tileMap.insert(0, "w")
+	
+			
 	#tileMap.pop[xCoord, ]
 	
 	#tileObjectBuffer = ""
