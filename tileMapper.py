@@ -153,9 +153,9 @@ def findLogs(tileMap):
 
 
 def objectMove(tileMap, log):
-	yCoord = findLogs(tileMap)[0][0]
-	xCoord = findLogs(tileMap)[0][1]
-	xLength = findLogs(tileMap)[0][2]
+	#yCoord = findLogs(tileMap)[0][0]
+	#xCoord = findLogs(tileMap)[0][1]
+	#xLength = findLogs(tileMap)[0][2]
 	tileMap.pop(0)
 	tileMap.pop(0)
 	tileMap.pop(0)
@@ -166,14 +166,10 @@ def objectMove(tileMap, log):
 	tileMap.insert(0, "(")
 	tileMap.insert(0, "w")
 	
-			
 	#tileMap.pop[xCoord, ]
 	
 	#tileObjectBuffer = ""
 	#tileObjectBuffer = tileMap[0] + tileMap[1] + tileMap[2]
-	#tileMap.pop(0)
-	#tileMap.insert(0, "w")
-	
 	#tileMap.insert(0, (tileObjectBuffer.split()))
 
 def getInput():	
