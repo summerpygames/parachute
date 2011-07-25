@@ -68,30 +68,6 @@ mapString = open(os.path.join("data", "tileMap.txt"), "r")
 tileMap = []
 for line in mapString:
 	tileMap.append(list(line.strip()))#map(string, line.split()))
-	
-logX = 0
-logY = 0
-logLocation = []
-for line in tileMap: #checks each line 
-	if (("(" in line != False) and (")" in line != False)):
-		logLocation.append([line.index('('), logY, (line.index(')')-line.index('(')) ]) # appends x and y coords, and end-start
-	logY+=1
-print logLocation
-
-
-foundLogs = []
-findX = 0
-findY = 0
-while (findX <= 17):
-    while (findY <= 23):
-        if tileMap[findX][findY] == "(":
-            for i in range(findY, 24):
-                if tileMap[findX][i] == ")":
-                    foundLogs.append([findX, findY, (i - findY + 1)])
-        findY += 1
-    findY = 0
-    findX += 1
-print foundLogs, " ... "
 
 
 def tileCharRead(tileChar): #picks the correct image for each ascii stand-in
@@ -150,22 +126,43 @@ def tileMapPrint():    #prints the tiles from the map
 	pygame.display.flip() #moves blits onto scene
 
 
-def objectMove(tileMap, tileObjectBuffer):
+def searchLogs(tileMap):	
+	logX = 0
+	logY = 0
+	logLocation = []
+	for line in tileMap: #checks each line 
+		if (("(" in line != False) and (")" in line != False)):
+			logLocation.append([line.index('('), logY, (line.index(')')-line.index('(')) ]) # appends x and y coords, and end-start
+		logY+=1
+	print logLocation
+
+def findLogs(tileMap):
+	foundLogs = []
+	findX = 0
+	findY = 0
+	while (findX <= 17):
+	    while (findY <= 23):
+	        if tileMap[findX][findY] == "(":
+	            for i in range(findY, 24):
+	                if tileMap[findX][i] == ")":
+	                    foundLogs.append([findX, findY, (i - findY + 1)])
+	        findY += 1
+	    findY = 0
+	    findX += 1
+	return foundLogs
+
+
+def objectMove(tileMap, log):
+	yCoord = findLogs(tileMap)[0][0]
+	xCoord = findLogs(tileMap)[0][1]
+	xLength = findLogs(tileMap)[0][2]
+
+	#tileMap.pop[xCoord, ]
+	
 	#tileObjectBuffer = ""
 	#tileObjectBuffer = tileMap[0] + tileMap[1] + tileMap[2]
-	tileMap.pop(0)
-	tileMap.pop(0)
-	tileMap.pop(0)
-	tileMap.pop(0)
-	
-	tileMap.insert(0, ")")
-	tileMap.insert(0, "=")
-	tileMap.insert(0, "(")
-	tileMap.insert(0, "w")
-
-	#tileMap.insert(0, ('w', '(', '=', ')')) 
-	#tileMap.pop(4)
-	#tileMap.insert(0, "w") 
+	#tileMap.pop(0)
+	#tileMap.insert(0, "w")
 	
 	#tileMap.insert(0, (tileObjectBuffer.split()))
 
