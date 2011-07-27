@@ -2,10 +2,10 @@ Team Parachute 2010!
 
 Thanks to BEA for letting us use their space and to Ms Barndollar for setting everthing up!
 
-Thanks to rms for saving us from doom.
+Thanks to Linus Torvalds and rms for saving the world
 
 Artist:
-LawtonMizell
+Lawton Mizell
 Michael Mizell
 Wiliam Archie
 
