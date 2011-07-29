@@ -66,6 +66,7 @@ mapString = open(os.path.join("data", "tileMap.txt"), "r")
 #mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
 tileMap = []
+logMap = []
 for line in mapString:
         tileMap.append(list(line.strip()))#map(string, line.split()))
 
@@ -106,7 +107,7 @@ def tileCharRead(tileChar): #picks the correct image for each ascii stand-in
     return tileImage
 
             
-def tileMapPrint():    #prints the tiles from the map    
+def tileMapPrint(tileMap):    #prints the tiles from the map    
 	xCoord = 0
 	yCoord = 0
 	for line in tileMap:  #read each line in the 2d array
@@ -133,11 +134,12 @@ def logMapPrint():
         for line in tileMap:
             for letter in line:
                 lineBuffer.append(letter.lstrip('w<>o|'))
-            logMap.append(lineBuffer.replace('', '0'))#letter.lstrip('w<>o|'))
+            #logMap.append(lineBuffer.replace('', '0'))#letter.lstrip('w<>o|'))
             lineBuffer = []
    
         print "logMap:\n "
         print logMap
+        tileMapPrint(logMap)
 	
 
 def searchLogs(tileMap):	
@@ -209,20 +211,20 @@ def getInput():
 		for event in pygame.event.get():
 			if event.type  == pygame.KEYDOWN:
 				if (event.key == pygame.K_UP) or (event.key == pygame.K_PAGEUP):
-					objectMove(tileMap, "up")
+					objectMove(logMap, "up")
 					getKeys = False
 				if (event.key == pygame.K_LEFT) or (event.key == pygame.K_END):
-					objectMove(tileMap, "left")
+					objectMove(logMap, "left")
 					getKeys = False
 				if (event.key == pygame.K_DOWN) or (event.key == pygame.K_PAGEDOWN):
-					objectMove(tileMap, "down")
+					objectMove(logMap, "down")
 					getKeys = False
                             
                         	if (event.key == pygame.K_RIGHT) or (event.key == pygame.K_HOME):
-					objectMove(tileMap, "right")
+					objectMove(logMap, "right")
 					getKeys = False
 				if event.key == pygame.K_RETURN:
-					objectMove(tileMap, "(=)")
+					objectMove(logMap, "return")
 					getKeys = False
 
 				if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q) or (event.key == pygame.K_BACKSPACE) :
@@ -236,9 +238,10 @@ def waitToExit():
 	
 def main(yes):
 	while True:
-		tileMapPrint()
+		tileMapPrint(tileMap)
 		logMapPrint()
-		getInput()
+		
+                getInput()
 		tileMapPrint()
 		print tileMap
 		print yes*10

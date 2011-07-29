@@ -50,7 +50,7 @@ def main():
         screen.fill( (0,0,128))
         milliseconds = clock.tick(25) # maximum number of frames per second
         
-        #calls the menu function
+        #calls the main menu function
         mainMenu.runMenu(screen)
 
         # Event-management loop with support for pausing after X seconds (20 here)
@@ -64,7 +64,7 @@ def main():
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
-            #pygame.display.flip()
+            pygame.display.flip()
 
 if __name__ == "__main__":
     logging.basicConfig()
