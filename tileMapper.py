@@ -132,26 +132,10 @@ def logMapPrint():
 	#logMap = tileMap
         for line in tileMap:
             for letter in line:
-                lineBuffer.append(replace(letter.lstrip('w<>o|'), '0'))
-            logMap.append(lineBuffer)#letter.lstrip('w<>o|'))
+                lineBuffer.append(letter.lstrip('w<>o|'))
+            logMap.append(lineBuffer.replace('', '0'))#letter.lstrip('w<>o|'))
             lineBuffer = []
-        #logMap = logMap.lstrip('<>o|')
-        #i=0
-        #for line in logMap:
-        #    line=line.lstrip('<>o|')
-        #    logMap.append(line)
-                
-        
-	#logMap = logMap.tostring()#.strip('ow<>|w')
-	#logMap = tileMap
-	#logMap = logMap.extend([logMap.strip('<>|o') for i in logMap]
-	#join([for i in logMap])
-	
- 	#for line in logMap:
-	#	for i in line:
-	#		i.replace('o','w')
-	#	logMap.append(i)
-
+   
         print "logMap:\n "
         print logMap
 	
