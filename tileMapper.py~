@@ -9,7 +9,7 @@
 #-josh
 #
 
-import pygame, sys, os, array, string
+import pygame, sys, os, array
 
 screenSize = width, height = 1200, 900 # screen res of the XO laptops
 screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
@@ -125,21 +125,10 @@ def tileMapPrint():    #prints the tiles from the map
 			yCoord += tileSize
 	pygame.display.flip() #moves blits onto scene
 
-
+logMap = []
 def logMapPrint():
-        logMap = []
-        lineBuffer = []
-	#logMap = tileMap
-        for line in tileMap:
-            for letter in line:
-                lineBuffer.append(replace(letter.lstrip('w<>o|'), '0'))
-            logMap.append(lineBuffer)#letter.lstrip('w<>o|'))
-            lineBuffer = []
-        #logMap = logMap.lstrip('<>o|')
-        #i=0
-        #for line in logMap:
-        #    line=line.lstrip('<>o|')
-        #    logMap.append(line)
+	logMap = tileMap
+        for line in logMap:
                 
         
 	#logMap = logMap.tostring()#.strip('ow<>|w')
@@ -152,8 +141,7 @@ def logMapPrint():
 	#		i.replace('o','w')
 	#	logMap.append(i)
 
-        print "logMap:\n "
-        print logMap
+	print logMap
 	
 
 def searchLogs(tileMap):	
@@ -224,17 +212,16 @@ def getInput():
 	while getKeys:
 		for event in pygame.event.get():
 			if event.type  == pygame.KEYDOWN:
-				if (event.key == pygame.K_UP) or (event.key == pygame.K_PAGEUP):
+				if event.key == pygame.K_UP:
 					objectMove(tileMap, "up")
 					getKeys = False
-				if (event.key == pygame.K_LEFT) or (event.key == pygame.K_END):
+				if event.key == pygame.K_LEFT:
 					objectMove(tileMap, "left")
 					getKeys = False
-				if (event.key == pygame.K_DOWN) or (event.key == pygame.K_PAGEDOWN):
+				if event.key == pygame.K_DOWN:
 					objectMove(tileMap, "down")
 					getKeys = False
-                            
-                        	if (event.key == pygame.K_RIGHT) or (event.key == pygame.K_HOME):
+				if event.key == pygame.K_RIGHT:
 					objectMove(tileMap, "right")
 					getKeys = False
 				if event.key == pygame.K_RETURN:
