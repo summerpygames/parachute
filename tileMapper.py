@@ -69,12 +69,46 @@ landByLiquidI = pygame.image.load(os.path.join("data", currentLevel, landByLiqui
 mapString = open(os.path.join("data", currentLevel, "tileMap.txt"), "r")
 #mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
-
-#def getMap():
 tileMap = []
 logMap = []
-for line in mapString:
-    tileMap.append(list(line.strip()))#map(string, line.split()))
+backgroundMap = []
+
+def mapInit():
+    #tileMap = []
+    #logMap = []
+    #backgroundMap = []
+
+    for line in mapString: # the whole map
+          tileMap.append(list(line.strip()))#map(string, line.split()))
+    
+    #create the log-only map
+    lineBuffer = []
+    for line in tileMap:
+        for letter in line:             
+            letter = letter.replace('w', '0') # replace all non-log tiles with zeros as spacing, '0' strings are skipped when blitting
+            letter = letter.replace('<', '0')
+            letter = letter.replace('>', '0')
+            letter = letter.replace('o', '0')
+            letter = letter.replace('|', '0')
+            lineBuffer.append(letter)
+        logMap.append(lineBuffer)
+        lineBuffer = []
+
+    #create the background item only map
+    for line in tileMap:    # go through each line
+        for letter in line:  # one letter at a time
+            letter = letter.replace('(', '0') # and replace all logs with blanks (0 strings) , which are jumped over when blitting :)
+            letter = letter.replace(')', '0')
+            letter = letter.replace('=', '0')
+            lineBuffer.append(letter)
+        backgroundMap.append(lineBuffer)
+        lineBuffer = []
+
+    print "logMap:\n "
+    print logMap
+
+        #tileMapPrint(logMap)
+        
 
 
 
@@ -119,7 +153,7 @@ def tileMapPrint(tileMap):    #prints the tiles from the map
         yCoord = 0
         for line in tileMap:  #read each line in the 2d array
                 for tileChar in line:   #then read each char from that sub-array
-			if tileChar != '':
+			if tileChar != '0':
 				tileImage = tileCharRead(tileChar)      #load the matching image
                         	tileRect = tileImage.get_rect()         #get the rectangle
                         	tileRect = tileRect.move(xCoord, yCoord) #move draw location to the right spot, (x,y)
@@ -134,22 +168,6 @@ def tileMapPrint(tileMap):    #prints the tiles from the map
                         yCoord += tileSize
         pygame.display.flip() #moves blits onto scene
 
-def logMapPrint():
-        logMap = []
-        lineBuffer = []
-		#logMap = tileMap
-
-        for line in tileMap:
-            for letter in line:
-                lineBuffer.append(letter.lstrip('w<>o|'))
-            #logMap.append(lineBuffer.replace('', '0'))#letter.lstrip('w<>o|'))
-            lineBuffer = []
-   
-        print "logMap:\n "
-        print logMap
-
-        #tileMapPrint(logMap)
-        
 
 def searchLogs(tileMap):        
         logX = 0
@@ -171,7 +189,6 @@ def findLogs(tileMap):
                     for i in range(findY, 24):
                         if tileMap[findX][i] == ")":
                                 foundLogs.append([findX, findY, i])
-                                #foundLogs.append([findX, findY, (i - findY + 1)])
                 findY += 1
             findY = 0
             findX += 1
@@ -213,9 +230,9 @@ def bridgeCheck(tileMap):
 def getInput(): 
         getKeys = True
         while getKeys:
-                for event in pygame.event.get():
-                        if event.type  == pygame.KEYDOWN:
-                                if (event.key == pygame.K_UP) or (event.key == pygame.K_PAGEUP):
+                for event in pygame.event.get(): # polls each thing happining
+                        if event.type  == pygame.KEYDOWN: # if equal to a keypress
+                                if (event.key == pygame.K_UP) or (event.key == pygame.K_PAGEUP): # and if the key presesed is a certian one
                                         objectMove(logMap, "up")
                                         getKeys = False
                                 if (event.key == pygame.K_LEFT) or (event.key == pygame.K_END):
@@ -241,47 +258,6 @@ def waitToExit():
         #exitIn = raw_input("\n(press enter to quit)\n")
         pygame.quit()
         
-def main(yes):
-        while True:
-                tileMapPrint(tileMap)
-                #logMapPrint()
-                
-                getInput()
-                tileMapPrint(logMap)
-                print tileMap
-                print yes*10
-
-        	tileMapPrint(logMap)
-	
-
-def searchLogs(tileMap):	
-	logX = 0
-	logY = 0
-	logLocation = []
-	for line in tileMap: #checks each line 
-		if (("(" in line != False) and (")" in line != False)):
-			logLocation.append([line.index('('), logY, (line.index(')')-line.index('(')) ]) # appends x and y coords, and end-start
-		logY+=1
-	print logLocation
-
-def findLogs(tileMap):
-	foundLogs = []
-	findX = 0
-	findY = 0
-	while (findX <= 17):
-	    while (findY <= 23):
-	        if tileMap[findX][findY] == "(":
-	            for i in range(findY, 24):
-	                if tileMap[findX][i] == ")":
-	       			foundLogs.append([findX, findY, i])
-          			#foundLogs.append([findX, findY, (i - findY + 1)])
-	        findY += 1
-	    findY = 0
-	    findX += 1
-	print foundLogs
-	return foundLogs
-
-
 def objectMove(tileMap, direction):
 	xCoord = findLogs(tileMap)[0][0]
 	print xCoord
@@ -295,39 +271,12 @@ def objectMove(tileMap, direction):
 		temp = tileMap.pop(xCoord)
 		tileMap.insert(xCoord+1, temp)#tileMap.pop(xCoord))
 	if direction == 'down':
+		temp = tileMap.pop(xCoord)
+                
 	        tileMap.insert(yCoord+1, tileMap.pop(yCoord))
 	if direction == 'left':
-		tileMap.insert(xCoord-1, tileMap.pop(xCoord))
-	if direction == 'up':
-		tileMap.insert(yCoord-1, tileMap.pop(yCoord))
+		temp = tileMap.pop(xCoord)
 
-def getInput():	
-	getKeys = True
-	while getKeys:
-		for event in pygame.event.get():
-			if event.type  == pygame.KEYDOWN:
-				if (event.key == pygame.K_UP) or (event.key == pygame.K_PAGEUP):
-					objectMove(logMap, "up")
-					getKeys = False
-				if (event.key == pygame.K_LEFT) or (event.key == pygame.K_END):
-					objectMove(logMap, "left")
-					getKeys = False
-				if (event.key == pygame.K_DOWN) or (event.key == pygame.K_PAGEDOWN):
-					objectMove(logMap, "down")
-					getKeys = False
-                            
-                        	if (event.key == pygame.K_RIGHT) or (event.key == pygame.K_HOME):
-					objectMove(logMap, "right")
-					getKeys = False
-				if event.key == pygame.K_RETURN:
-					objectMove(logMap, "return")
-					getKeys = False
-
-				if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q) or (event.key == pygame.K_BACKSPACE) :
-					waitToExit()
-					getKeys = False
-				else:
-					getKeys = False
 def waitToExit():
 	#exitIn = raw_input("\n(press enter to quit)\n")
 	pygame.quit()
@@ -335,10 +284,11 @@ def waitToExit():
 def main(yes):
 	while True:
 		tileMapPrint(tileMap)
-		logMapPrint()
+		tileMapPrint(logMap)
+
+                #logMapPrint()
 		
                 getInput()
-		tileMapPrint()
 		print tileMap
 		print yes*10
 
