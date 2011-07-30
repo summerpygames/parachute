@@ -31,6 +31,10 @@ logEnd = "logEnd.png"
 logMiddle = "logMiddle.png"
 endLog = "endLog.png"
 
+currentLevel = os.path.join("levels", "desert")
+
+dateFolder = "data"
+
 mapSize = [24, 18] #number of tiles for the screen
 tileLocation = [0, 0] #starting x and y location for tile printing
 mapArea = mapSize[0] * mapSize[1] #area of tile map, set with the number of tiles
@@ -46,31 +50,31 @@ text = font.render("loading...", True, white)
 screen.blit(text, (600,450))
 
 # Load images beforehand for better blit times
-liquidI = pygame.image.load(os.path.join("data", liquid)).convert() #load the image tile and sets it to a variable for later
-landI = pygame.image.load(os.path.join("data", land)).convert() #load the image tile and sets it to a variable for later
+liquidI = pygame.image.load(os.path.join("data", currentLevel, liquid)).convert() #load the image tile and sets it to a variable for later
+landI = pygame.image.load(os.path.join("data", currentLevel, land)).convert() #load the image tile and sets it to a variable for later
 
-liquidOverLandI = pygame.image.load(os.path.join("data", liquidOverLand)).convert() #load the image tile and sets it to a variable for later
+liquidOverLandI = pygame.image.load(os.path.join("data", currentLevel, liquidOverLand)).convert() #load the image tile and sets it to a variable for later
 
-liquidLandCornerI = pygame.image.load(os.path.join("data", liquidLandCorner)).convert() #load the image tile and sets it to a variable for later
-landLiquidCornerI = pygame.image.load(os.path.join("data", landLiquidCorner)).convert() ##load the image tile and sets it to a variable for later
+liquidLandCornerI = pygame.image.load(os.path.join("data", currentLevel, liquidLandCorner)).convert() #load the image tile and sets it to a variable for later
+landLiquidCornerI = pygame.image.load(os.path.join("data", currentLevel, landLiquidCorner)).convert() ##load the image tile and sets it to a variable for later
 
-logMiddleI = pygame.image.load(os.path.join("data", logMiddle)).convert() #load the image tile and sets it to a variable for later
-logEndI = pygame.image.load(os.path.join("data", logEnd)).convert() #load the image tile and sets it to a variable for later
-endLogI = pygame.image.load(os.path.join("data", endLog)).convert() #load the image tile and sets it to a variable for later
+logMiddleI = pygame.image.load(os.path.join("data", currentLevel,  logMiddle)).convert() #load the image tile and sets it to a variable for later
+logEndI = pygame.image.load(os.path.join("data",currentLevel,  logEnd)).convert() #load the image tile and sets it to a variable for later
+endLogI = pygame.image.load(os.path.join("data", currentLevel, endLog)).convert() #load the image tile and sets it to a variable for later
 
-liquidByLandI = pygame.image.load(os.path.join("data", liquidByLand)).convert() #load the image tile and sets it to a variable for later
-landByLiquidI = pygame.image.load(os.path.join("data", landByLiquid)).convert() #load the image tile and sets it to a variable for later
+liquidByLandI = pygame.image.load(os.path.join("data", currentLevel, liquidByLand)).convert() #load the image tile and sets it to a variable for later
+landByLiquidI = pygame.image.load(os.path.join("data", currentLevel, landByLiquid)).convert() #load the image tile and sets it to a variable for later
 
 
-mapString = open(os.path.join("data", "tileMap.txt"), "r")
+mapString = open(os.path.join("data", currentLevel, "tileMap.txt"), "r")
 #mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
 
 
-def getMap():
-	tileMap = []
-	logMap = []
-	for line in mapString:
-        	tileMap.append(list(line.strip()))#map(string, line.split()))
+#def getMap():
+tileMap = []
+logMap = []
+for line in mapString:
+    tileMap.append(list(line.strip()))#map(string, line.split()))
 
 
 
@@ -228,7 +232,7 @@ def getInput():
                                         objectMove(logMap, "return")
                                         getKeys = False
 
-                                if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q) or (event.key == pygame.K_BACKSPACE) :
+                                if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q) or (event.key == pygame.K_BACKSPACE):
                                         waitToExit()
                                         getKeys = False
                                 else:
@@ -247,7 +251,7 @@ def main(yes):
                 print tileMap
                 print yes*10
 
-        		tileMapPrint(logMap)
+        	tileMapPrint(logMap)
 	
 
 def searchLogs(tileMap):	
