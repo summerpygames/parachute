@@ -254,25 +254,15 @@ def objectMove(tileMap, direction, selectedLog):
                 logBuffer = logMap[logY][logStart:logEnd].pop()
                 print "logBuffer:", logBuffer
                 bridgeMap.append(logBuffer)
-                logMap[logY][logStart:logEnd+1].append(logBuffer)
-                logMap[logY][logStart:logEnd+1].append(["0"] * len(logBuffer))
-                print "mappy:", logMap[logY][logStart:logEnd+1]
+                #logMap[logY][logStart:logEnd+1].append(logBuffer)
+                logMap[logY][logStart:logEnd] = ["0"] * len(logBuffer)
+                print "mappy:", logMap[logY][logStart:logEnd]
+        logMap[9][2:] = bridgeMap
 
-
-        #tileMap[9] = 0
-        #tileMap[9][2:] = bridgeMap
-        #bridgeMap = 
         print "\n\n", list(bridgeMap), "...bridgeMap\n", len(bridgeMap)
         #tileMap.pop(range(findLogs(selectedLog)[i][0], findLogs(selectedLog)[i][1]))
        
-        #xCoord = findLogs(tileMap)[0][0]
-	#print xCoord
-	#yCoord = findLogs(tileMap)[0][1]
-	#print yCoord
-	#xEnd = findLogs(tileMap)[0][2]
-	#print xEnd
-	
-	if direction == 'right':
+        if direction == 'right':
                 selectedLog+=1
 	        #tileMap.insert(xCoord+1, tileMap.pop(xCoord))
 
