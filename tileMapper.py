@@ -31,9 +31,11 @@ logEnd = "logEnd.png"
 logMiddle = "logMiddle.png"
 endLog = "endLog.png"
 
-currentLevel = os.path.join("levels", "desert")
+levelList = ["desert", "jungle", "lava", "space", "tundra"]
+levelNumber = 0
+currentLevel = levelList[levelNumber]
 
-dateFolder = "data"
+dataFolder = os.path.join("data", "levels")
 
 mapSize = [24, 18] #number of tiles for the screen
 tileLocation = [0, 0] #starting x and y location for tile printing
@@ -50,24 +52,28 @@ text = font.render("loading...", True, white)
 screen.blit(text, (600,450))
 
 # Load images beforehand for better blit times
-liquidI = pygame.image.load(os.path.join("data", currentLevel, liquid)).convert() #load the image tile and sets it to a variable for later
-landI = pygame.image.load(os.path.join("data", currentLevel, land)).convert() #load the image tile and sets it to a variable for later
+liquidI = pygame.image.load(os.path.join(dataFolder, currentLevel, liquid)).convert() #load the image tile and sets it to a variable for later
+landI = pygame.image.load(os.path.join(dataFolder, currentLevel, land)).convert() #load the image tile and sets it to a variable for later
 
-liquidOverLandI = pygame.image.load(os.path.join("data", currentLevel, liquidOverLand)).convert() #load the image tile and sets it to a variable for later
+liquidOverLandI = pygame.image.load(os.path.join(dataFolder, currentLevel, liquidOverLand)).convert() #load the image tile and sets it to a variable for later
 
-liquidLandCornerI = pygame.image.load(os.path.join("data", currentLevel, liquidLandCorner)).convert() #load the image tile and sets it to a variable for later
-landLiquidCornerI = pygame.image.load(os.path.join("data", currentLevel, landLiquidCorner)).convert() ##load the image tile and sets it to a variable for later
+liquidLandCornerI = pygame.image.load(os.path.join(dataFolder, currentLevel, liquidLandCorner)).convert() #load the image tile and sets it to a variable for later
+landLiquidCornerI = pygame.image.load(os.path.join(dataFolder, currentLevel, landLiquidCorner)).convert() ##load the image tile and sets it to a variable for later
 
-logMiddleI = pygame.image.load(os.path.join("data", currentLevel,  logMiddle)).convert() #load the image tile and sets it to a variable for later
-logEndI = pygame.image.load(os.path.join("data",currentLevel,  logEnd)).convert() #load the image tile and sets it to a variable for later
-endLogI = pygame.image.load(os.path.join("data", currentLevel, endLog)).convert() #load the image tile and sets it to a variable for later
+logMiddleI = pygame.image.load(os.path.join(dataFolder, currentLevel,  logMiddle)).convert() #load the image tile and sets it to a variable for later
+logEndI = pygame.image.load(os.path.join(dataFolder,currentLevel,  logEnd)).convert() #load the image tile and sets it to a variable for later
+endLogI = pygame.image.load(os.path.join(dataFolder, currentLevel, endLog)).convert() #load the image tile and sets it to a variable for later
 
-liquidByLandI = pygame.image.load(os.path.join("data", currentLevel, liquidByLand)).convert() #load the image tile and sets it to a variable for later
-landByLiquidI = pygame.image.load(os.path.join("data", currentLevel, landByLiquid)).convert() #load the image tile and sets it to a variable for later
+liquidByLandI = pygame.image.load(os.path.join(dataFolder, currentLevel, liquidByLand)).convert() #load the image tile and sets it to a variable for later
+landByLiquidI = pygame.image.load(os.path.join(dataFolder, currentLevel, landByLiquid)).convert() #load the image tile and sets it to a variable for later
 
 
-mapString = open(os.path.join("data", currentLevel, "tileMap.txt"), "r")
+mapString = open(os.path.join(dataFolder, currentLevel, "tileMap.txt"), "r")
 #mapString = mapString.lower() #convert to lowercase, helps make the symbols valid
+
+
+def levelSwitch():
+    currentLevel = os.path.join(dataFolder, levelList[levelNumber])
 
 selectedLog = 0
 
@@ -76,9 +82,6 @@ logMap = []
 backgroundMap = []
 bridgeMap = []
 def mapInit():
-    #tileMap = []
-    #logMap = []
-    #backgroundMap = []
 
     for line in mapString: # the whole map
           tileMap.append(list(line.strip()))#map(string, line.split()))
@@ -175,7 +178,8 @@ def searchLogs(tileMap):
         logLocation = []
         for line in tileMap: #checks each line 
                 if (("(" in line != False) and (")" in line != False)):
-                        logLocation.append([line.index('('), logY, (line.index(')')-line.index('(')), line.index(')') ]) # appends x and y coords, and end-start
+                        logLocation.append([line.index('('), logY, 
+                        (line.index(')')-line.index('(')), line.index(')') ]) # appends x and y coords, and end-start
                 logY+=1
         print logLocation
 
@@ -196,44 +200,47 @@ def findLogs(tileMap):
         print foundLogs
         return foundLogs
 
-"""
 def bridgeCheck(tileMap):
 	found = False
-	fir line in tileMap:
-                if line.join() == ""
-"""
+        if found == False:
+            logMap[9][:].reverse() 
+            logBuffer = logMap[9][:].index(")")
+            logMap[9][:].reverse() 
+
+            if int(logBuffer) == 22:
+                found = True
+
 
 def getInput(): 
         getKeys = True
         while getKeys:
                 for event in pygame.event.get(): # polls each thing happining
                         if event.type  == pygame.KEYDOWN: # if equal to a keypress
-                                #if (event.key == pygame.K_UP) or (event.key == pygame.K_PAGEUP): # and if the key presesed is a certian one
-                                #        #objectMove(logMap, "up")
-                                #        getKeys = False
+
                                 if (event.key == pygame.K_LEFT) or (event.key == pygame.K_END):
-                                        objectMove(logMap, "left", selectedLog)
+                                #        objectMove(logMap, "left", selectedLog)
                                         getKeys = False
-                                #if (event.key == pygame.K_DOWN) or (event.key == pygame.K_PAGEDOWN):
-                                #        #objectMove(logMap, "down")
-                                #        getKeys = False
-                            
+
                                 if (event.key == pygame.K_RIGHT) or (event.key == pygame.K_HOME):
-                                        objectMove(logMap, "right", selectedLog)
+                                #        objectMove(logMap, "right", selectedLog)
                                         getKeys = False
                                 if event.key == pygame.K_RETURN:
                                         objectMove(logMap, "return", selectedLog)
                                         getKeys = False
-                                
-  
 
+                                if event.key == pygame.K_n:
+                                    #objectMove(logMap, "return", selectedLog)
+                                    levelNumber+=1
+                                    levelSwitch()
+                                    getKeys = False
+                                
+                                
                                 if (event.key == pygame.K_ESCAPE) or (event.key == pygame.K_q) or (event.key == pygame.K_BACKSPACE):
                                         waitToExit()
                                         getKeys = False
                                 else:
                                         getKeys = False
 def waitToExit():
-        #exitIn = raw_input("\n(press enter to quit)\n")
         pygame.quit()
         
 def objectMove(tileMap, direction, selectedLog):
@@ -287,8 +294,6 @@ def main(yes):
                 getInput()
 		print tileMap
 		print yes*10
-
-#main("y")
 
 pygame.font.quit()
 
