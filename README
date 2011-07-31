@@ -1,0 +1,60 @@
+INFO: 
+	Mind The Gap was created for the 2011 Summer Py Games by a team of highschooler, with a mission of creating an educational game for young childeren
+	SummerpyGames website: http://www.summerpygames.org/	
+
+STORY:
+	Your spaceship crashes in the middle of nowhere!
+	You must find your way back to the space station, crossing rivers along the way.
+
+	You can move logs around the river to bridge the gap so you don't get soaked!
+
+GAMEPLAY:
+	Move objects with arrow jey or pageup, pagedown, home, end keys, or the checkmark buttons on an olpc XO 1.n
+	quit with q, backspace, ir esc
+
+DOWNLOADING:
+	The up to date source is avalible at 
+	https://github.com/summerpygames/parachute
+	or	
+	https://Joshua-Satterfield@github.com/summerpygames/parachute.git
+	and can be downloaded useing git by running:
+
+	git clone git://github.com/summerpygames/parachute.git 
+	(read only)	
+	
+	or readwrite
+	git@github.com:summerpygames/parachute.git
+
+RUNNING: 
+	the game can be ran by running the source, a .pyc file, or a .XO file
+	the current prefered way is:
+	python run.py
+	
+	run.py sets the screen size, does some error checks and runs the menu
+
+CONTACT:
+	We on #summerpygames at irc.freenode.net
+	and you can email some of the devs here:
+	joshua@cubesolving.com
+
+BUGS:
+	bugs can be reported on our git or at joshua@cubeslving.com
+
+LICENSE:
+	This game is licensed under the wonderful GPLv3, the full license in the LICENSE text file:
+
+
+	This file is part of Mind The Gap
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
