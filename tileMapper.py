@@ -243,7 +243,7 @@ def getInput():
 def waitToExit():
         pygame.quit()
         
-def objectMove(tileMap, direction, selectedLog):
+def objectMove(logMap, direction, selectedLog):
         bridgeMap = []
         
         logStart = findLogs(logMap)[selectedLog][0]
@@ -254,15 +254,16 @@ def objectMove(tileMap, direction, selectedLog):
         print "\nLOGMAP:", logMap, "\n"        
         
         print logStart
+        print logY
         print logEnd
         print range(logStart, logEnd)
         if direction == "return":
                 #for line in range(logStart, logEnd):
-                logBuffer = logMap[logY][logStart:logEnd].pop()
+                logBuffer = logMap[logY][logStart:logEnd+1].pop()
                 print "logBuffer:", logBuffer
                 bridgeMap.append(logBuffer)
                 #logMap[logY][logStart:logEnd+1].append(logBuffer)
-                logMap[logY][logStart:logEnd] = ["0"] * len(logBuffer)
+                logMap[logY][logStart:logEnd] = ["0"] * (logEnd-logStart)#len(logBuffer)
                 print "mappy:", logMap[logY][logStart:logEnd]
         logMap[9][2:] = bridgeMap
 
