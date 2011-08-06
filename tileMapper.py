@@ -15,6 +15,23 @@ screenSize = width, height = 1200, 900 # screen res of the XO laptops
 screen = pygame.display.set_mode(screenSize) #sets the virtual screen size to the res specified
 pygame.display.set_caption('Mind The Gap (Team Parachute 2011)')
 
+currentLevel = "desert"
+def main(currentLevel):
+    #currentLevel = currentLevel    
+    mapInit()
+    while True:
+                #mapInit()
+		tileMapPrint(backgroundMap)
+		tileMapPrint(logMap)
+                #tileMapPrint(bridgeMap)
+
+                #logMapPrint()
+		
+                getInput()
+		print tileMap
+		print currentLevel
+
+
 # tile file names for refering later 
 land = "land.png"
 liquid = "liquid.png"
@@ -31,9 +48,9 @@ logEnd = "logEnd.png"
 logMiddle = "logMiddle.png"
 endLog = "endLog.png"
 
-levelList = ["desert", "jungle", "lava", "space", "tundra"]
-levelNumber = 0
-currentLevel = levelList[levelNumber]
+#levelList = ["desert", "jungle", "lava", "space", "tundra"]
+#levelNumber = 0
+#currentLevel = levelList[levelNumber]
 
 dataFolder = os.path.join("data", "levels")
 
@@ -259,13 +276,15 @@ def objectMove(logMap, direction, selectedLog):
         print range(logStart, logEnd)
         if direction == "return":
                 #for line in range(logStart, logEnd):
-                logBuffer = logMap[logY][logStart:logEnd+1].pop()
+                logBuffer = logMap[logY][logStart:logEnd+10].pop()
                 print "logBuffer:", logBuffer
-                bridgeMap.append(logBuffer)
+                #bridgeMap.append(logBuffer)
                 #logMap[logY][logStart:logEnd+1].append(logBuffer)
                 logMap[logY][logStart:logEnd] = ["0"] * (logEnd-logStart)#len(logBuffer)
                 print "mappy:", logMap[logY][logStart:logEnd]
-        logMap[9][2:] = bridgeMap
+        logMap[9][2:] = logBuffer#bridgeMap
+
+        print "\n\n", list(logMap), "...logMap\n", len(logMap)
 
         print "\n\n", list(bridgeMap), "...bridgeMap\n", len(bridgeMap)
         #tileMap.pop(range(findLogs(selectedLog)[i][0], findLogs(selectedLog)[i][1]))
@@ -282,19 +301,6 @@ def waitToExit():
 	#exitIn = raw_input("\n(press enter to quit)\n")
 	pygame.quit()
 	
-def main(yes):
-        mapInit()
-	while True:
-                #mapInit()
-		tileMapPrint(backgroundMap)
-		tileMapPrint(logMap)
-                #tileMapPrint(bridgeMap)
-
-                #logMapPrint()
-		
-                getInput()
-		print tileMap
-		print yes*10
 
 pygame.font.quit()
 

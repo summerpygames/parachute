@@ -1,0 +1,28 @@
+if levelSelected <= 0 and levelSelected >= 4
+    tileLocation = "data" + "/jungle"
+elif levelSelected <= 5 and levelSelected >= 9
+    tileLocation = "data" + "/ice"
+elif levelSelected <= 10 and levelSelected >= 14
+    tileLocation = "data" + "/desert"
+elif levelSelected <= 15 and levelSelected >= 19
+    tileLocation = "data" + "/lava"
+elif levelSelected <= 20 and levelSelected >= 24
+    tileLocation = "data" + "/space"
+
+chosenLevel = "level" + str(levelSelected)
+
+#needs to be implemented into most recent version of tileMapper and replace
+#the code to accomedate it, i.e.
+
+#line 65 is
+#mapString = open(os.path.join("data", "tileMap.txt"), "r")
+#and needs to become
+#mapString = open(os.path.join("data", chosenLevel), "r")
+
+#line 58 is
+#logEndI = pygame.image.load(os.path.join("data", logEnd)).convert()
+#and needs to become
+#logEndI = pygame.image.load(os.path.join(tileLocation, logEnd)).convert()
+
+#this is compatible with my filing system, which is more efficient than the current one
+#and tell TODO that he needs to delete line 37, it does nothing
