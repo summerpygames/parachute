@@ -16,7 +16,7 @@ DOWNLOADING:
 	The up to date source is avalible at 
 	https://github.com/summerpygames/parachute
 	or	
-	https://Joshua-Satterfield@github.com/summerpygames/parachute.git
+	https://Zachary-Holland@github.com/summerpygames/parachute.git
 	and can be downloaded useing git by running:
 
 	git clone git://github.com/summerpygames/parachute.git 
@@ -26,19 +26,18 @@ DOWNLOADING:
 	git@github.com:summerpygames/parachute.git
 
 RUNNING: 
-	the game can be ran by running the source, a .pyc file, or a .XO file
+	The game can be ran by running the source, a .pyc file, or a .XO file
 	the current prefered way is:
 	python run.py
 	
 	run.py sets the screen size, does some error checks and runs the menu
 
 CONTACT:
-	We on #summerpygames at irc.freenode.net
-	and you can email some of the devs here:
+	#summerpygames on irc.freenode.net
 	joshua@cubesolving.com
 
 BUGS:
-	bugs can be reported on our git or at joshua@cubeslving.com
+	Bugs can be reported on our github or at joshua@cubeslving.com
 
 LICENSE:
 	This game is licensed under the wonderful GPLv3, the full license in the LICENSE text file:
