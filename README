@@ -10,7 +10,7 @@ STORY:
 
 GAMEPLAY:
 	Move objects with arrow jey or pageup, pagedown, home, end keys, or the checkmark buttons on an olpc XO 1.n
-	quit with q, backspace, ir esc
+	quit with q, backspace, or Esc.
 
 DOWNLOADING:
 	The up to date source is avalible at 
